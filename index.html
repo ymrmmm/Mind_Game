@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Mind Game
+    </title>
+    <style>
+      *
+      {
+        margin: 0px;
+        padding: 0px;
+      }
+      .grid
+      {
+        display: flex;
+        flex-wrap: wrap;
+        height: 300px;
+        width: 400px;
+        
+      }
+      .name
+      {
+        height: 40px;
+        margin: 80px 0px;
+        text-align: center;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="name">Mind Game</div>
+    <div>Score: <span class="result">0</span></div>
+    <div class="grid"></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+         const cards = [
+           {
+             name: "penguin",
+             img: "a.jpg"
+           },
+           {
+             name: "tractor",
+             img: "b.jpg"
+           },
+           {
+             name: "car",
+             img: "c.jpg"
+           },
+           {
+             name: "jcb",
+             img: "d.jpg"
+           },
+           {
+             name: "train",
+             img: "e.jpg"
+           },
+           {
+             name: "beer",
+             img: "f.jpg"
+           },
+           {
+             name: "jcb",
+             img: "d.jpg"
+           },
+           {
+             name: "train",
+             img: "e.jpg"
+           },
+           {
+             name: "beer",
+             img: "f.jpg"
+           },
+           {
+             name: "penguin",
+             img: "a.jpg"
+           },
+           {
+             name: "tractor",
+             img: "b.jpg"
+           },
+           {
+             name: "car",
+             img: "c.jpg"
+           }
+         ]
+
+         const grid = document.querySelector(".grid");
+         const res = document.querySelector(".result")
+         var cardChoosen = []
+         var cardChoosenId = []
+         var won = []
+
+         function createBoard() {
+           for(let i=0; i<cards.length; i++)
+           {
+             var card = document.createElement("img");
+             card.setAttribute("src", "front.jpg")
+             card.setAttribute("data-id", i)
+             card.addEventListener("click", flipCard)
+             grid.appendChild(card)
+           }
+         }
+
+         createBoard()
+
+         function checkMatch () {
+           var c = document.querySelectorAll("img")
+           const zero = cardChoosenId[0]
+           const one = cardChoosenId[1]
+           if(cardChoosen[0] === cardChoosen[1]) {
+             c[zero].setAttribute("src", "blank.jpg")
+             c[one].setAttribute("src", "blank.jpg")
+             won.push(cardChoosen)
+           } else {
+             c[zero].setAttribute("src", "front.jpg")
+             c[one].setAttribute("src", "front.jpg")
+           }
+
+           cardChoosenId = []
+           cardChoosen = []
+           res.innerHTML = won.length * 2
+           if(won.length === cards.length/2) {
+             alert("Congratulations! You Won.")
+              var content = grid.innerHTML
+              document.location.reload(true)
+           }
+         }
+
+         function flipCard () {
+           const cardId = this.getAttribute("data-id")
+           cardChoosen.push(cards[cardId].name)
+           cardChoosenId.push(cardId)
+           this.setAttribute("src", cards[cardId].img)
+           if(cardChoosen.length === 2) {
+             setTimeout(checkMatch, 500)
+           }
+         }
+      })
+    </script>
+  
+  </body>
+</html>
